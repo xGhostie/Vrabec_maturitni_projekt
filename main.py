@@ -267,3 +267,6 @@ def reset_speed(original_delay):
 
 if __name__ == "__main__":
     show_menu()  # Spustí hlavní menu hry
+
+    #ondra husak  je nigga
+    

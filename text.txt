@@ -1,5 +1,5 @@
+gg:330
 david:220
+dv:110
 dv:100
 dv:90
-lol:90
-lol:70

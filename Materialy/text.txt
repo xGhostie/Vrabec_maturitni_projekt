@@ -1,0 +1,61 @@
+import pygame: Importuje knihovnu Pygame, která se používá pro tvorbu 2D her.
+import random: Importuje modul random, který slouží k generování náhodných čísel (např. pro umístění jídla).
+import time: Importuje modul time, který umožňuje práci s časem (např. pro zpoždění hry).
+import os: Importuje modul os, který umožňuje interakci s operačním systémem (např. pro práci se soubory).
+import tkinter: Importuje knihovnu Tkinter, která se používá pro tvorbu grafického uživatelského rozhraní.
+from tkinter import simpledialog: Importuje specifickou funkci simpledialog z Tkinteru, která slouží k zobrazení jednoduchých dialogových oken.
+pygame.init(): Inicializuje všechny moduly Pygame, které jsou nezbytné pro správný chod hry.
+pygame.font.init(): Inicializuje modul pro práci s fonty v Pygame.
+WIDTH = 600, HEIGHT = 600: Definují konstanty pro šířku a výšku herního okna.
+screen = pygame.display.set_mode((WIDTH, HEIGHT)): Vytvoří herní okno s definovanými rozměry.
+pygame.display.set_caption("Hra na hada"): Nastaví titulek herního okna.
+GREEN = (0, 125, 0), BLACK = (0, 0, 0), atd.: Definují barevné konstanty pro použití ve hře.
+SNAKE_SIZE = 20, FOOD_SIZE = 20: Definují velikost hada a jídla.
+Hra = True: Inicializuje proměnnou Hra, která řídí běh herní smyčky.
+speed_boost_active = False: Inicializuje proměnnou, která sleduje aktivaci „speed boostu“.
+SCORE_FILE = "text.txt": Definice názvu souboru, do kterého se bude ukládat skóre.
+MAX_SCORES = 5: Definice maximálního počtu skóre, která se budou uchovávat.
+2. Funkce pro práci se skóre:
+
+def load_scoreboard():: Funkce pro načtení skóre z textového souboru.
+if not os.path.exists(SCORE_FILE):: Kontroluje, zda soubor se skóre existuje.
+with open(SCORE_FILE, "r") as file:: Otevírá soubor pro čtení.
+lines = file.readlines(): Čte všechny řádky ze souboru.
+Následuje zpracování řádků a uložení skóre do seznamu.
+return sorted(...): Vrací seřazený seznam skóre.
+def save_scoreboard(scoreboard):: Funkce pro uložení skóre do souboru.
+with open(SCORE_FILE, "w") as file:: Otevírá soubor pro zápis.
+file.write(f"{name}:{score}\n"): Zapisuje skóre do souboru ve formátu „jméno:skóre“.
+def get_player_name():: Funkce pro získání jména hráče pomocí dialogového okna.
+root = tkinter.Tk(): Vytvoří dočasné okno Tkinter.
+name = simpledialog.askstring(...): Zobrazí dialogové okno pro zadání jména.
+return name if name else "Anonym": Vrací zadané jméno nebo „Anonym“.
+def save_new_score(score):: Funkce pro uložení nového skóre.
+Volá funkce get_player_name(), load_scoreboard() a save_scoreboard().
+3. Funkce pro zobrazení menu a scoreboardu:
+
+def show_menu():: Funkce pro zobrazení hlavního menu hry.
+Nastavuje pozadí, fonty a texty pro menu.
+Vykresluje tlačítka pro spuštění hry, zobrazení skóre a ukončení.
+Obsahuje smyčku, která reaguje na kliknutí myší.
+def show_scoreboard():: Funkce pro zobrazení žebříčku skóre.
+Načítá skóre pomocí load_scoreboard().
+Vykresluje skóre na obrazovku.
+Vykresluje tlačítko pro návrat do menu.
+4. Funkce pro hru:
+
+def start_game():: Funkce pro spuštění hry.
+Nastavuje Hra = True a volá funkci play().
+def play():: Funkce obsahující hlavní herní logiku.
+Inicializuje herní proměnné.
+Definuje vnořené funkce pro kreslení hada, jídla a zobrazení skóre.
+move_snake(): Posouvá hada.
+check_collision(): Kontroluje kolize.
+reset_game(): Resetuje hru.
+speed_boost(): Aktivuje zrychlení.
+reset_speed(): Resetuje rychlost.
+Obsahuje hlavní herní smyčku, která reaguje na události.
+5. Hlavní blok kódu:
+
+if __name__ == "__main__":: Spustí funkci show_menu(), pokud je skript spuštěn přímo.
+Tento podrobný popis by měl pomoci pochopit, co dělá každý řádek kódu.

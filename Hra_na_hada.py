@@ -1,9 +1,9 @@
 import pygame
 import random
 import time
-import os
 import tkinter
 from tkinter import simpledialog
+import sqlite3
 
 # Inicializace Pygame
 pygame.init()
@@ -16,12 +16,12 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))  # Vytvoří herní okno
 pygame.display.set_caption("Hra na hada")  # Nastaví titulek okna
 
 # Barvy
-GREEN = (0, 125, 0)  # Tmavší zelená pro pozadí
-BLACK = (0, 0, 0)  # Černá pro hada
-RED = (255, 0, 0)  # Červená pro jídlo
-BLUE = (0, 0, 255)  # Modrá pro speciální jídlo
-WHITE = (255, 255, 255)  # Bílá pro text
-GREY = (128, 128, 128)  # Šedá pro tělo hada
+GREEN = (0, 125, 0)  
+BLACK = (0, 0, 0)  
+RED = (255, 0, 0)  
+BLUE = (0, 0, 255)  
+WHITE = (255, 255, 255)  
+GREY = (128, 128, 128)  
 
 # Velikost hada a jídla
 SNAKE_SIZE = 20  # Velikost jednoho segmentu hada
@@ -30,36 +30,49 @@ FOOD_SIZE = 20  # Velikost jídla
 # Proměnné hry
 Hra = True  # Řídí běh hry
 speed_boost_active = False  # Stav speed boostu
-SCORE_FILE = "text.txt"  # Název souboru pro ukládání skóre
 MAX_SCORES = 5    # Maximální počet záznamů ve scoreboardu
+
+# Inicializace databáze
+def init_database():
+    """Inicializuje databázovou tabulku pro scoreboard"""
+    conn = sqlite3.connect('snake_scoreboard.db')
+    cursor = conn.cursor()
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS scoreboard (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            player_name TEXT NOT NULL,
+            score INTEGER NOT NULL,
+            game_date DATETIME DEFAULT CURRENT_TIMESTAMP
+        )
+    ''')
+    conn.commit()
+    conn.close()
 
 # Funkce pro načtení scoreboardu
 def load_scoreboard():
-    """Načte žebříček skóre ze souboru"""
-    if not os.path.exists(SCORE_FILE):  # Pokud soubor neexistuje, vrátí prázdný seznam
-        return []
-
-    with open(SCORE_FILE, "r") as file:  # Otevře soubor pro čtení
-        lines = file.readlines()  # Přečte všechny řádky
-
-    scoreboard = []
-    for line in lines:
-        parts = line.strip().split(":")  # Odstraní bílé znaky a rozdělí řádek na jméno a skóre
-        if len(parts) == 2:
-            try:
-                name, score = parts[0], int(parts[1])  # Převede skóre na integer
-                scoreboard.append((name, score))  # Přidá záznam do scoreboardu
-            except ValueError:
-                continue    # Ignoruje neplatné řádky
-
-    return sorted(scoreboard, key=lambda x: x[1], reverse=True)[:MAX_SCORES]  # Seřadí skóre a vrátí prvních MAX_SCORES záznamů
+    """Načte žebříček skóre z databáze"""
+    conn = sqlite3.connect('snake_scoreboard.db')
+    cursor = conn.cursor()
+    cursor.execute('''
+        SELECT player_name, score FROM scoreboard 
+        ORDER BY score DESC 
+        LIMIT ?
+    ''', (MAX_SCORES,))
+    scoreboard = cursor.fetchall()
+    conn.close()
+    return scoreboard
 
 # Funkce pro uložení scoreboardu
-def save_scoreboard(scoreboard):
-    """Uloží žebříček skóre do souboru"""
-    with open(SCORE_FILE, "w") as file:  # Otevře soubor pro zápis
-        for name, score in scoreboard:
-            file.write(f"{name}:{score}\n")  # Zapíše každý záznam ve formátu "jméno:skóre"
+def save_scoreboard(name, score):
+    """Uloží nové skóre do databáze"""
+    conn = sqlite3.connect('snake_scoreboard.db')
+    cursor = conn.cursor()
+    cursor.execute('''
+        INSERT INTO scoreboard (player_name, score) 
+        VALUES (?, ?)
+    ''', (name, score))
+    conn.commit()
+    conn.close()
 
 # Funkce pro získání jména hráče
 def get_player_name():
@@ -75,14 +88,11 @@ def get_player_name():
 def save_new_score(score):
     """Uloží nové skóre do scoreboardu"""
     name = get_player_name()  # Získá jméno hráče
-    scoreboard = load_scoreboard()  # Načte aktuální scoreboard
-    scoreboard.append((name, score))  # Přidá nové skóre
-    save_scoreboard(sorted(scoreboard, key=lambda x: x[1], reverse=True)[:MAX_SCORES])  # Uloží aktualizovaný scoreboard
+    save_scoreboard(name, score)  # Uloží skóre
 
 # Funkce pro zobrazení menu
 def show_menu():
     """Zobrazí hlavní menu hry"""
-    print("Menu is showing...")
     screen.fill(GREEN)    # Nastaví pozadí na zelené
     font_title = pygame.font.SysFont("Arial", 30)  # Nastaví font pro titul
     font_button = pygame.font.SysFont("Arial", 20)  # Nastaví font pro tlačítka
@@ -309,6 +319,8 @@ def play():
         pygame.display.update()  # Aktualizuj obrazovku
         time.sleep(delay)  # Zpoždění pro řízení rychlosti hry
     show_menu()  # Po skončení hry (smyčky) zobrazíme menu
-if __name__ == "__main__":
-    show_menu()  # Spustí menu při spuštění programu
 
+if __name__ == "__main__":
+    # Inicializace databáze před spuštěním hry
+    init_database()
+    show_menu()  # Spustí menu při spuštění programu

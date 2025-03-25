@@ -1,0 +1,196 @@
+# Průvodce projektem Snake Game
+
+## 1. Úvod do projektu
+### Základní charakteristika
+- **Název projektu**: Snake Game
+- **Programovací jazyk**: Python
+- **Hlavní knihovny**: Pygame, SQLite, Tkinter
+- **Verze**: 1.0
+
+## 2. Projektová struktura
+```
+snake_game/
+│
+├── main.py               # Hlavní spouštěcí soubor
+├── game_logic.py         # Herní mechanika
+├── database_manager.py   # Správa databáze a skóre
+├── ui_manager.py         # Uživatelské rozhraní
+│
+├── assets/               # Případné budoucí grafické zdroje
+│
+└── snake_scoreboard.db   # SQLite databáze skóre
+```
+
+## 3. Klíčové komponenty
+
+### Herní mechanika
+- Had se pohybuje pomocí kláves W, A, S, D
+- Dva typy jídla:
+  1. Červené jídlo: Prodlužuje hada, zvyšuje skóre
+  2. Modré jídlo: Dočasný speed boost
+
+### Databázové rozhraní
+- Ukládání top 5 nejlepších skóre
+- Struktura tabulky:
+  - `id`: Unikátní identifikátor
+  - `player_name`: Jméno hráče
+  - `score`: Dosažené skóre
+  - `game_date`: Datum hry
+
+## 4. Vývojové prostředí
+### Požadované nástroje
+- Python 3.8+
+- Pygame
+- Tkinter
+- SQLite3
+
+### Instalace závislostí
+```bash
+pip install pygame
+# Tkinter je součástí standardní knihovny Python
+```
+
+## 5. Klíčové funkce k pochopení
+
+### Hlavní herní smyčka (`play()`)
+1. Inicializace herního stavu
+2. Zpracování uživatelských vstupů
+3. Pohyb hada
+4. Detekce kolizí
+5. Aktualizace skóre
+6. Vykreslení herních prvků
+
+### Databázové operace
+- `init_database()`: Inicializace databázové tabulky
+- `save_scoreboard()`: Ukládání nového skóre
+- `load_scoreboard()`: Načítání top skóre
+
+## 6. Rozvojové možnosti
+- Implementace nových herních módů
+- Vylepšení grafického rozhraní
+- Přidání achievementů
+- Podpora multiplatformnosti
+
+## 7. Běžné vývojové úkoly
+- Testování herní mechaniky
+- Optimalizace výkonu
+- Rozšiřování herních funkcí
+- Údržba databázového systému
+
+## 8. Pravidla pro přispívání
+- Dodržovat konzistentní kódovací styl
+- Komentovat významné části kódu
+- Provádět průběžné testování
+- Konzultovat významné změny s týmem
+
+## 9. Známé problémy a omezení
+- Omezená škálovatelnost current implementace
+- Minimální grafické zpracování
+- Základní herní mechanika
+
+## 10. Kontaktní informace
+- **Vedoucí projektu**: [Jméno]
+- **Email**: [email]
+- **Vývojářská dokumentace**: [odkaz]
+
+*Věříme, že tento projekt bude pro vás stejně zábavný jako pro nás!*
+
+
+# Vývojové směrnice pro projekt Snake Game
+
+## 1. Kódovací standardy
+
+### Formátování
+- Dodržovat PEP 8 
+- Používat 4 mezery pro odsazení
+- Maximální délka řádku: 79 znaků
+- Konzistentní pojmenování proměnných
+
+### Komentáře a dokumentace
+- Každá funkce musí mít docstring
+- Komentovat komplexní algoritmy
+- Vysvětlovat netriviální části kódu
+
+## 2. Archititektura projektu
+
+### Principy návrhu
+- Oddělení zodpovědností
+- Minimalizace závislostí
+- Udržitelnost a rozšiřitelnost
+
+### Doporučené návrhové vzory
+- Model-View-Controller (MVC)
+- Dependency Injection
+- Event-driven programming
+
+## 3. Testování
+
+### Typy testů
+- Unit testy pro herní logiku
+- Integrační testy databáze
+- Manuální herní testy
+
+### Testovací nástroje
+- `pytest` pro automatizované testy
+- Ruční testování herních scénářů
+
+## 4. Verzování
+
+### Git workflow
+- Používat feature branches
+- Pull requesty pro code review
+- Smysluplné commit zprávy
+- Dodržovat konvenční commits
+
+### Struktura branché
+- `main`: Stabilní verze
+- `develop`: Vývojová větev
+- `feature/`: Nové funkcionality
+- `bugfix/`: Opravy chyb
+
+## 5. Bezpečnostní opatření
+
+### Vstupní validace
+- Kontrola uživatelských vstupů
+- Ochrana proti neočekávaným hodnotám
+- Bezpečné ukládání dat
+
+### Prevence
+- Validace délky jmen hráčů
+- Omezení velikosti skóre
+- Ochrana databázových operací
+
+## 6. Výkonnostní optimalizace
+
+### Doporučení
+- Minimalizovat výpočetní náročnost
+- Efektivní správa paměti
+- Optimalizace herní smyčky
+
+### Měření výkonu
+- Profilování kódu
+- Sledování vytížení procesoru
+- Analýza paměťové náročnosti
+
+## 7. Dokumentace
+
+### Požadavky
+- Průběžná aktualizace README
+- Komentáře ve zdrojovém kódu
+- Wiki projektu
+- Changelog
+
+## 8. Continuous Integration
+
+### Automatizace
+- Automatické testy
+- Statická analýza kódu
+- Kontrola kódovacích standardů
+
+### Doporučené nástroje
+- GitHub Actions
+- Travis CI
+- Black (formátování)
+- Flake8 (lint)
+
+*Směrnice jsou živým dokumentem a mohou se průběžně aktualizovat.*

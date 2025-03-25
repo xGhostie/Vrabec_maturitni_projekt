@@ -1,0 +1,56 @@
+Rád vám popíšu tento Python kód, který implementuje klasickou hru Had (Snake) s využitím knihoven Pygame a SQLite. Pojďme projít jednotlivé hlavní komponenty:
+
+Inicializace a nastavení:
+
+
+Kód inicializuje herní okno s velikostí 600x600 pixelů
+Definuje barvy, velikost hada a jídla
+Nastavuje základní proměnné pro běh hry
+
+
+Databázové funkce:
+
+
+init_database(): Vytvoří SQLite databázi pro ukládání výsledků hráčů
+load_scoreboard(): Načte top 5 nejlepších skóre
+save_scoreboard(): Uloží nové skóre do databáze
+
+
+Uživatelské rozhraní:
+
+
+show_menu(): Vykreslí hlavní menu s tlačítky "Spustit hru", "Scoreboard" a "Ukončit"
+show_scoreboard(): Zobrazí žebříček nejlepších hráčů
+get_player_name(): Otevře dialogové okno pro zadání jména hráče
+
+
+Herní mechanika (play()):
+
+
+Had se pohybuje pomocí kláves W, A, S, D
+Had roste po snězení červeného jídla
+Modré jídlo poskytuje dočasný speed boost
+Hra skončí, když had narazí do stěny nebo sám do sebe
+Skóre se zvyšuje a rychlost hry se zrychluje
+
+
+Další herní funkce:
+
+
+draw_snake(): Vykreslení hada
+draw_food(): Vykreslení jídla
+move_snake(): Pohyb hada
+check_collision(): Kontrola kolizí
+speed_boost(): Aktivace dočasného zrychlení
+
+
+Hlavní herní smyčka:
+
+
+Zpracovává uživatelské vstupy
+Aktualizuje pozici hada
+Kontroluje kolize
+Vykresluje herní prvky
+Ukládá skóre po skončení hry
+
+Po spuštění programu se zobrazí hlavní menu, odkud můžete hru spustit, zobrazit scoreboard nebo ukončit aplikaci.

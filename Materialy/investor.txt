@@ -1,0 +1,100 @@
+Technologie
+
+Programovací jazyk: Python
+Herní engine: Pygame
+Databáze: SQLite
+Multiplatformní podpora
+
+Klíčové herní mechaniky
+
+Adaptivní obtížnost
+Systém skórování
+Sledování herních statistik
+Víceúrovňový žebříček úspěchů
+
+Finanční projekce
+Monetizační strategie
+
+Základní verze zdarma
+Prémiové verze s rozšířenými funkcemi
+
+Pokročilé herní módy
+Customizace hada
+Globální žebříčky
+
+
+
+Projektované příjmy
+
+Rok 1: $50,000
+Rok 2: $120,000
+Rok 3: $250,000
+
+Roadmapa rozvoje
+Plán rozšíření
+
+Desktop verze (Q3 2024)
+Mobilní aplikace (Q1 2025)
+Webová verze (Q2 2025)
+Multiplayerová funkce (Q4 2025)
+
+Investiční požadavky
+
+Celková investice: $75,000
+Alokace zdrojů:
+
+Vývoj: 40%
+Marketing: 30%
+Provoz: 20%
+Rezerva: 10%
+
+
+
+Rizika a mittigace
+Identifikovaná rizika
+
+Nasycený herní trh
+Technologické změny
+Konkurence
+
+Mitigační strategie
+
+Agilní vývoj
+Neustálé updaty
+Aktivní zpětná vazba komunity
+
+Kontakt
+
+Vývojář: [Vaše jméno]
+Email: [váš email]
+Telefon: [váš telefon]
+
+"Jednoduchá hra, která baví generace"
+
+Algoritmy
+
+Pohyb hada
+Detekce kolizí
+Generování jídla
+Adaptivní obtížnost
+
+Databázový model
+Tabulka scoreboard
+
+id: Primární klíč
+player_name: Jméno hráče
+score: Dosažené skóre
+game_date: Datum hry
+
+Technické specifikace
+
+Resoluce: 600x600 pixelů
+Snímková frekvence: 60 FPS
+Podpora: Windows, macOS, Linux
+Velikost instalace: <50 MB
+
+Bezpečnostní prvky
+
+Validace vstupních dat
+Ochrana proti nechtěným vstupům
+Bezpečné ukládání skóre

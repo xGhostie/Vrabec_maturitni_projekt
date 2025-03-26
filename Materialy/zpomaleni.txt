@@ -1,0 +1,43 @@
+import pygame
+import random
+import time
+import tkinter
+from tkinter import simpledialog
+import sqlite3
+
+# Zbytek kódu zůstává stejný až po funkci play()
+
+def play():
+    """Spustí samotnou hru hada"""
+    global Hra, delay, screen
+    Hra = True
+    base_delay = 0.15  # Základní rychlost hry
+    delay = base_delay  
+    min_delay = 0.05  # Minimální možná rychlost hry
+    score = 0  # Počáteční skóre
+    snake_body = [(WIDTH / 2, HEIGHT / 2)]  # Počáteční pozice hada (uprostřed obrazovky)
+    snake_direction = "stop"  # Počáteční směr hada
+
+    # Pozice jídla
+    food_pos = (random.randint(0, (WIDTH - FOOD_SIZE) // FOOD_SIZE) * FOOD_SIZE,
+                random.randint(0, (HEIGHT - FOOD_SIZE) // FOOD_SIZE) * FOOD_SIZE)
+
+    # Pozice speciálního jídla
+    blue_food_pos = (random.randint(0, (WIDTH - FOOD_SIZE) // FOOD_SIZE) * FOOD_SIZE,
+                    random.randint(0, (HEIGHT - FOOD_SIZE) // FOOD_SIZE) * FOOD_SIZE)
+
+    font = pygame.font.SysFont("Courier", 24)  # Font pro zobrazení skóre
+
+    def slow_down():
+        """Zpomalí hada"""
+        global delay
+        max_delay = 0.3  # Maximální možná rychlost
+        delay = min(max_delay, delay + 0.02)  # Přidá zpoždění, maximálně do hodnoty max_delay
+
+    # Zbytek funkce play() zůstává stejný, pouze nahradíme volání speed_boost() za:
+    if snake_body[0] == blue_food_pos:  # Pokud had sní modré jídlo
+        blue_food_pos = (random.randint(0, (WIDTH - FOOD_SIZE) // FOOD_SIZE) * FOOD_SIZE,
+                        random.randint(0, (HEIGHT - FOOD_SIZE) // FOOD_SIZE) * FOOD_SIZE)
+        slow_down()  # Aktivuj zpomalení místo speed boostu
+
+# Zbytek kódu zůstává stejný

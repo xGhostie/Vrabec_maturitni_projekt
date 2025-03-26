@@ -1,0 +1,80 @@
+def slow(original_delay):
+    """Aktivuje dočasné zpomalení hada"""
+    global delay
+    max_delay = 0.3  # Maximální možná rychlost
+    delay = max_delay  # Nastaví zpomalení
+    pygame.time.set_timer(pygame.USEREVENT, 5000)  # Nastaví timer na 5 sekund
+
+def reset_speed(original_delay):
+    """Resetuje rychlost hry po uplynutí zpomalení"""
+    global delay
+    delay = original_delay  # Vrátí původní rychlost
+    pygame.time.set_timer(pygame.USEREVENT, 0)  # Vypne timer
+
+def play():
+    """Spustí samotnou hru hada"""
+    global Hra, delay, screen
+    Hra = True
+    delay = 0.15  # Počáteční rychlost hry
+    min_delay = 0.05  # Minimální rychlost hry
+    score = 0  # Počáteční skóre
+    snake_body = [(WIDTH / 2, HEIGHT / 2)]  # Počáteční pozice hada (uprostřed obrazovky)
+    snake_direction = "stop"  # Počáteční směr hada
+
+    # Pozice jídla
+    food_pos = (random.randint(0, (WIDTH - FOOD_SIZE) // FOOD_SIZE) * FOOD_SIZE,
+                random.randint(0, (HEIGHT - FOOD_SIZE) // FOOD_SIZE) * FOOD_SIZE)
+
+    # Pozice speciálního jídla
+    blue_food_pos = (random.randint(0, (WIDTH - FOOD_SIZE) // FOOD_SIZE) * FOOD_SIZE,
+                    random.randint(0, (HEIGHT - FOOD_SIZE) // FOOD_SIZE) * FOOD_SIZE)
+
+    # Hlavní herní smyčka
+    while Hra:
+        screen.fill(GREEN)  # Vyplní obrazovku zelenou barvou
+        for event in pygame.event.get():  # Prochází všechny události
+            if event.type == pygame.QUIT:  # Pokud je událost typu QUIT (zavření okna)
+                pygame.quit()  # Ukončí Pygame
+                return  # Ukončí hru
+            elif event.type == pygame.KEYDOWN:  # Pokud je událost stisknutí klávesy
+                if event.key == pygame.K_w and snake_direction != "down":  # Pokud je stisknuto 'w' a had nejede dolů
+                    snake_direction = "up"  # Změní směr na nahoru
+                elif event.key == pygame.K_s and snake_direction != "up":
+                    snake_direction = "down"
+                elif event.key == pygame.K_a and snake_direction != "right":
+                    snake_direction = "left"
+                elif event.key == pygame.K_d and snake_direction != "left":
+                    snake_direction = "right"
+            elif event.type == pygame.USEREVENT:  # Event pro konec zpomalení
+                reset_speed(0.15)
+
+        snake_body = move_snake(snake_body, snake_direction)  # Posune hada
+
+        if check_collision(snake_body):  # Zkontroluje kolize
+            time.sleep(1)
+            save_new_score(score)
+            Hra = False  # Nastavíme Hra na False, ale neukončujeme hru
+            reset_game()
+            break  # Přerušíme herní smyčku, zobrazí se menu
+
+        if snake_body[0] == food_pos:  # Pokud had sní jídlo
+            snake_body.append(snake_body[-1])  # Prodluž hada
+            food_pos = (random.randint(0, (WIDTH - FOOD_SIZE) // FOOD_SIZE) * FOOD_SIZE,  # Vygeneruj nové jídlo
+                        random.randint(0, (HEIGHT - FOOD_SIZE) // FOOD_SIZE) * FOOD_SIZE)
+            score += 10  # Zvýš skóre
+            delay = max(min_delay, delay - 0.001)  # Zrychli hru
+
+        if snake_body[0] == blue_food_pos:  # Pokud had sní modré jídlo
+            blue_food_pos = (random.randint(0, (WIDTH - FOOD_SIZE) // FOOD_SIZE) * FOOD_SIZE,
+                            random.randint(0, (HEIGHT - FOOD_SIZE) // FOOD_SIZE) * FOOD_SIZE)
+            
+            # Zpomalení hada
+            slow(delay)  # Použití nové funkce slow()
+
+        draw_snake(snake_body)  # Vykresli hada
+        draw_food(food_pos, RED)  # Vykresli jídlo
+        draw_food(blue_food_pos, BLUE)
+        display_score(score)  # Zobraz skóre
+        pygame.display.update()  # Aktualizuj obrazovku
+        time.sleep(delay)  # Zpoždění pro řízení rychlosti hry
+    show_menu()  # Po skončení hry (smyčky) zobrazíme menu
